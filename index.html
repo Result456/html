@@ -1,0 +1,393 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Campus Cart - New Post</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #FDFBF7;
+      color: #1C1C1E;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 650px;
+      margin: 0 auto;
+      min-height: 100vh;
+      background: #FDFBF7;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 22px 20px;
+      border-bottom: 1px solid #E8E4DF;
+    }
+
+    .close-btn {
+      width: 42px;
+      height: 42px;
+      border: none;
+      border-radius: 50%;
+      background: #F2EFEB;
+      font-size: 26px;
+      cursor: pointer;
+    }
+
+    h1 {
+      font-size: 24px;
+    }
+
+    main {
+      padding: 24px 20px;
+      flex: 1;
+    }
+
+    .field {
+      margin-bottom: 22px;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      font-size: 15px;
+      margin-bottom: 10px;
+    }
+
+    .types {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .type-btn {
+      padding: 10px 16px;
+      border: 1px solid #E8E4DF;
+      border-radius: 25px;
+      background: white;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .type-btn.active {
+      background: #FF6B6B;
+      border-color: #FF6B6B;
+      color: white;
+      font-weight: bold;
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      padding: 15px;
+      border: 1px solid #E8E4DF;
+      border-radius: 12px;
+      background: white;
+      color: #1C1C1E;
+      font-size: 16px;
+      font-family: inherit;
+      outline: none;
+    }
+
+    input:focus,
+    textarea:focus {
+      border-color: #FF6B6B;
+      box-shadow: 0 0 0 3px #FFE4E4;
+    }
+
+    textarea {
+      min-height: 150px;
+      resize: vertical;
+      line-height: 1.5;
+    }
+
+    .hint {
+      color: #7E7A75;
+      font-size: 13px;
+      margin-top: 6px;
+    }
+
+    .error {
+      display: none;
+      color: #E63946;
+      font-size: 14px;
+      margin-bottom: 16px;
+    }
+
+    .footer {
+      padding: 16px 20px 24px;
+      border-top: 1px solid #E8E4DF;
+      background: white;
+    }
+
+    .publish-btn {
+      width: 100%;
+      padding: 16px;
+      border: none;
+      border-radius: 12px;
+      background: #FF6B6B;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .publish-btn:hover {
+      background: #E95757;
+    }
+
+    .publish-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .success {
+      display: none;
+      padding: 14px;
+      margin-bottom: 20px;
+      border-radius: 10px;
+      background: #E8F7E9;
+      color: #287A36;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 480px) {
+      header {
+        padding: 16px;
+      }
+
+      main {
+        padding: 20px 16px;
+      }
+
+      .footer {
+        padding: 14px 16px 20px;
+      }
+
+      .types {
+        gap: 6px;
+      }
+
+      .type-btn {
+        padding: 9px 12px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+
+    <header>
+      <button class="close-btn" onclick="clearForm()"
+        aria-label="Clear form">&times;</button>
+      <h1>New post</h1>
+    </header>
+
+    <main>
+      <div class="success" id="success" role="status"></div>
+      <p class="error" id="error" role="alert"></p>
+
+      <form id="postForm">
+
+        <div class="field">
+          <label>Type</label>
+
+          <div class="types">
+            <button type="button" class="type-btn active"
+              data-type="Event">Event</button>
+
+            <button type="button" class="type-btn"
+              data-type="Announcement">Announcement</button>
+
+            <button type="button" class="type-btn"
+              data-type="Service">Service</button>
+
+            <button type="button" class="type-btn"
+              data-type="Fundraiser">Fundraiser</button>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="title">Title</label>
+          <input
+            id="title"
+            name="title"
+            type="text"
+            maxlength="150"
+            placeholder="What's happening?"
+            required
+          >
+        </div>
+
+        <div class="field">
+          <label for="body">Details</label>
+          <textarea
+            id="body"
+            name="body"
+            maxlength="5000"
+            placeholder="Share the details with your community"
+            required
+          ></textarea>
+        </div>
+
+        <div class="field" id="dateField">
+          <label for="eventDate">Date (optional)</label>
+          <input
+            id="eventDate"
+            name="eventDate"
+            type="date"
+          >
+          <p class="hint">Choose the date of your community event.</p>
+        </div>
+
+        <button type="submit" hidden></button>
+      </form>
+    </main>
+
+    <div class="footer">
+      <button class="publish-btn" id="publishBtn" type="button">
+        ➤ Publish post
+      </button>
+    </div>
+
+  </div>
+
+  <script>
+    const form = document.getElementById("postForm");
+    const publishBtn = document.getElementById("publishBtn");
+    const errorBox = document.getElementById("error");
+    const successBox = document.getElementById("success");
+    const dateField = document.getElementById("dateField");
+
+    let selectedType = "Event";
+
+    // Choose a post type.
+    document.querySelectorAll(".type-btn").forEach(button => {
+      button.addEventListener("click", () => {
+        document.querySelectorAll(".type-btn").forEach(item => {
+          item.classList.remove("active");
+        });
+
+        button.classList.add("active");
+        selectedType = button.dataset.type;
+
+        dateField.style.display =
+          selectedType === "Event" ? "block" : "none";
+
+        showError("");
+        successBox.style.display = "none";
+      });
+    });
+
+    function showError(message) {
+      errorBox.textContent = message;
+      errorBox.style.display = message ? "block" : "none";
+    }
+
+    function clearForm() {
+      form.reset();
+      selectedType = "Event";
+
+      document.querySelectorAll(".type-btn").forEach(button => {
+        button.classList.toggle(
+          "active",
+          button.dataset.type === "Event"
+        );
+      });
+
+      dateField.style.display = "block";
+      showError("");
+      successBox.style.display = "none";
+      publishBtn.disabled = false;
+      publishBtn.textContent = "➤ Publish post";
+    }
+
+    // Publish the post.
+    publishBtn.addEventListener("click", async () => {
+      showError("");
+      successBox.style.display = "none";
+
+      const title = document.getElementById("title").value.trim();
+      const body = document.getElementById("body").value.trim();
+      const eventDate = document.getElementById("eventDate").value;
+
+      if (!title || !body) {
+        showError("Title and details are required.");
+        return;
+      }
+
+      const post = {
+        type: selectedType,
+        title: title,
+        body: body,
+        event_date:
+          selectedType === "Event" && eventDate
+            ? eventDate
+            : null
+      };
+
+      publishBtn.disabled = true;
+      publishBtn.textContent = "Publishing...";
+
+      try {
+        /*
+          This demo saves posts in the browser.
+          Connect your backend API here for real community posting.
+        */
+        const savedPosts = JSON.parse(
+          localStorage.getItem("campusCartPosts") || "[]"
+        );
+
+        savedPosts.push({
+          ...post,
+          id: Date.now(),
+          created_at: new Date().toISOString()
+        });
+
+        localStorage.setItem(
+          "campusCartPosts",
+          JSON.stringify(savedPosts)
+        );
+
+        successBox.textContent =
+          "Your post has been saved successfully in this browser.";
+        successBox.style.display = "block";
+
+        form.reset();
+        selectedType = "Event";
+
+        document.querySelectorAll(".type-btn").forEach(button => {
+          button.classList.toggle(
+            "active",
+            button.dataset.type === "Event"
+          );
+        });
+
+        dateField.style.display = "block";
+
+      } catch (error) {
+        showError("Unable to save your post. Please try again.");
+      } finally {
+        publishBtn.disabled = false;
+        publishBtn.textContent = "➤ Publish post";
+      }
+    });
+  </script>
+</body>
+</html>
+```
